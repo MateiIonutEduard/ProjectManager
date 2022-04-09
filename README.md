@@ -1,5 +1,5 @@
 # ProjectManager
-This application is made to schedule some projects according to the ![#add8e6]AGILE methodology.<br>
+This application is made to schedule some projects according to the AGILE methodology.<br>
 Project is built with ASP.NET Core API, Angular and PostgreSQL.
 
 ## Scheduled Tasks
