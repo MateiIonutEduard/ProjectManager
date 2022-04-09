@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProjectManager.Data;
 using ProjectManager.Services;
-using Swashbuckle.AspNetCore.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -39,13 +38,6 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddSingleton<ICryptoService, CryptoService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
-
-builder.Services.AddSwaggerGen(options =>
-{
-	options.SwaggerDoc("v1.0", new Microsoft.OpenApi.Models.OpenApiInfo
-	{ Title = "Project Management API v1.0", Version = "1.0" });
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,14 +46,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-app.UseSwagger();
-
-app.UseSwaggerUI(options =>
-{
-	options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1.0");
-	options.RoutePrefix = string.Empty;
-});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
