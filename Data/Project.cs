@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 #pragma warning disable
 
 namespace ProjectManager.Data
@@ -12,8 +13,10 @@ namespace ProjectManager.Data
         public string Description { get; set; }
         public int CreatorId { get; set; }
         public Account Account { get; set; }
-        [ForeignKey("ProjectId")]
+        [ForeignKey("ProjectId"), JsonIgnore]
         public ICollection<Phase> Phases { get; set; }
+        [ForeignKey("ProjectId"), JsonIgnore]
+        public ICollection<Meeting> Meetings { get; set; }
         public float Budget { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }

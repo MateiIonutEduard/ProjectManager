@@ -25,5 +25,9 @@ namespace ProjectManager.Data
         public ICollection<WorkItem> WorkItems { get; set; }
         [ForeignKey("OwnerId"), JsonIgnore]
         public ICollection<Activity> Activities { get; set; }
+        [ForeignKey("OwnerId"), JsonIgnore]
+        public ICollection<Invitation> Invitations { get; set; }
+        [ForeignKey("Assignee"), JsonIgnore]
+        public ICollection<Meeting> Meetings { get; set; }
     }
 }
