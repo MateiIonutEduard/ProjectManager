@@ -29,5 +29,7 @@ namespace ProjectManager.Data
         public ICollection<Invitation> Invitations { get; set; }
         [ForeignKey("Assignee"), JsonIgnore]
         public ICollection<Meeting> Meetings { get; set; }
+        [ForeignKey("AccountId"), JsonIgnore]
+        public ICollection<Group> Groups { get; set; }
     }
 }

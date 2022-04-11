@@ -38,6 +38,7 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddSingleton<ICryptoService, CryptoService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IProjectService, ProjectService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

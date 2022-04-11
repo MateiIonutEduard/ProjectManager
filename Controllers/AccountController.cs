@@ -23,7 +23,7 @@ namespace ProjectManager.Controllers
             return Ok(data);
         }
 
-        [HttpGet("{profile}")]
+        [HttpGet("{profile}/{id}")]
         public async Task<IActionResult> GetAccountProfile(int id)
         {
             var img = await accountService.GetProfileAsync(id);

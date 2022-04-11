@@ -14,9 +14,11 @@ namespace ProjectManager.Data
         public int CreatorId { get; set; }
         public Account Account { get; set; }
         [ForeignKey("ProjectId"), JsonIgnore]
-        public ICollection<Phase> Phases { get; set; }
+        public ICollection<Milestone> Milestones { get; set; }
         [ForeignKey("ProjectId"), JsonIgnore]
         public ICollection<Meeting> Meetings { get; set; }
+        [ForeignKey("ProjectId"), JsonIgnore]
+        public ICollection<Group> Groups { get; set; }
         public float Budget { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }

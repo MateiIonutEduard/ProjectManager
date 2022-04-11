@@ -12,6 +12,8 @@ namespace ProjectManager.Data
         public DbSet<Meeting> Meeting { get; set; }
         public DbSet<Invitation> Invitation { get; set; }
         public DbSet<Project> Project { get; set; }
+        public DbSet<Group> Group { get; set; }
+        public DbSet<Milestone> Milestone { get; set; }
         public DbSet<Phase> Phase { get; set; }
         public DbSet<WorkItem> WorkItem { get; set; }
         public DbSet<Activity> Activity { get; set; }
@@ -23,6 +25,8 @@ namespace ProjectManager.Data
             modelBuilder.Entity<Invitation>().ToTable("Invitation");
             modelBuilder.Entity<Meeting>().ToTable("Meeting");
             modelBuilder.Entity<Project>().ToTable("Project");
+            modelBuilder.Entity<Group>().ToTable("Group");
+            modelBuilder.Entity<Milestone>().ToTable("Milestone");
             modelBuilder.Entity<Phase>().ToTable("Phase");
             modelBuilder.Entity<WorkItem>().ToTable("WorkItem");
             modelBuilder.Entity<Activity>().ToTable("Activity");
