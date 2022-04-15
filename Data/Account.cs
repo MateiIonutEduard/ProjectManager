@@ -26,10 +26,10 @@ namespace ProjectManager.Data
         [ForeignKey("OwnerId"), JsonIgnore]
         public ICollection<Activity> Activities { get; set; }
         [ForeignKey("OwnerId"), JsonIgnore]
-        public ICollection<Invitation> Invitations { get; set; }
+        public ICollection<Appeal> Invitations { get; set; }
         [ForeignKey("Assignee"), JsonIgnore]
         public ICollection<Meeting> Meetings { get; set; }
         [ForeignKey("AccountId"), JsonIgnore]
-        public ICollection<Group> Groups { get; set; }
+        public ICollection<Invitation> Groups { get; set; }
     }
 }

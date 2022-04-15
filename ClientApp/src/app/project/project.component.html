@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <table *ngIf="fetch > 0" class="table table-dark">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Owner</th>
+      <th>Budget</th>
+      <th>Begin Date</th>
+      <th>End Date</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let project of projects">
+      <td>{{project.Title}}</td>
+      <td>{{project.Description}}</td>
+      <td>{{project.Username}}</td>
+      <td>{{project.BeginDate}}</td>
+      <td>{{project.EndDate}}</td>
+      <td>{{project.Status}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <div *ngIf="fetch == 0" class="alert alert-primary" role="alert">
+    There are no projects to be part of!
+  </div>
+  <div *ngIf="fetch < 0" class="alert alert-primary" role="alert">
+    You must log in to be able to manage the projects of the organization you belong to!<br>
+    <a class="nav-link text-success">Sign In</a>
+  </div>
+</div>

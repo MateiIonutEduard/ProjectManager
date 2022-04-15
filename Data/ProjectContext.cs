@@ -10,10 +10,10 @@ namespace ProjectManager.Data
         public DbSet<Account> Account { get; set; }
         public DbSet<Profile> Profile { get; set; }
         public DbSet<Meeting> Meeting { get; set; }
-        public DbSet<Invitation> Invitation { get; set; }
+        public DbSet<Appeal> Appeal { get; set; }
         public DbSet<Project> Project { get; set; }
-        public DbSet<Group> Group { get; set; }
-        public DbSet<Milestone> Milestone { get; set; }
+        public DbSet<Invitation> Invitation { get; set; }
+        public DbSet<Sprint> Sprint { get; set; }
         public DbSet<Phase> Phase { get; set; }
         public DbSet<WorkItem> WorkItem { get; set; }
         public DbSet<Activity> Activity { get; set; }
@@ -22,11 +22,14 @@ namespace ProjectManager.Data
         {
             modelBuilder.Entity<Account>().ToTable("Account");
             modelBuilder.Entity<Profile>().ToTable("Profile");
-            modelBuilder.Entity<Invitation>().ToTable("Invitation");
+
+            modelBuilder.Entity<Appeal>().ToTable("Appeal");
             modelBuilder.Entity<Meeting>().ToTable("Meeting");
+
             modelBuilder.Entity<Project>().ToTable("Project");
-            modelBuilder.Entity<Group>().ToTable("Group");
-            modelBuilder.Entity<Milestone>().ToTable("Milestone");
+            modelBuilder.Entity<Invitation>().ToTable("Invitation");
+
+            modelBuilder.Entity<Sprint>().ToTable("Sprint");
             modelBuilder.Entity<Phase>().ToTable("Phase");
             modelBuilder.Entity<WorkItem>().ToTable("WorkItem");
             modelBuilder.Entity<Activity>().ToTable("Activity");

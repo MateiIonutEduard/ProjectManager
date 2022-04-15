@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectManager.Data;
 using ProjectManager.Models;
+#pragma warning disable
 
 namespace ProjectManager.Services
 {
@@ -10,6 +11,138 @@ namespace ProjectManager.Services
         readonly ProjectContext context;
         public ProjectService(ProjectContext context)
         { this.context = context; }
+
+        public async Task<int> AddInvitation(int id, int accountId, string token)
+        {
+            var client = await context.Account.FirstOrDefaultAsync(u => u.Token == token);
+
+            if(client != null)
+            {
+                var project = await context.Project.FirstOrDefaultAsync(p => p.Id == id && p.CreatorId == client.Id);
+
+                if(project != null)
+                {
+                    var inv = await context.Invitation.FirstOrDefaultAsync(i => i.AccountId == accountId 
+                            && i.ProjectId == id);
+
+                    if (inv != null) return 0;
+                    var newInvite = new Invitation
+                    {
+                        Status = 0,
+                        AccountId = accountId,
+                        ProjectId = id
+                    };
+
+                    context.Invitation.Add(newInvite);
+                    await context.SaveChangesAsync();
+                    return 1;
+                }
+
+                return -2;
+            }
+
+            return -1;
+        }
+
+        public async Task<InvitationModel[]?> GetInvitations(int? id, string token)
+        {
+            var account = await context.Account.FirstOrDefaultAsync(u => u.Token == token);
+
+            if(account != null)
+            {
+                if (id != null)
+                {
+                    var list = (from p in await context.Project.ToListAsync()
+                                join i in await context.Invitation.ToListAsync()
+                                on p.Id equals i.ProjectId
+                                join a in await context.Account.ToListAsync()
+                                on i.AccountId equals a.Id
+                                where p.Id == id && i.Status == 0 && i.AccountId != account.Id
+                                select new InvitationModel
+                                {
+                                    Id = i.Id,
+                                    Status = i.Status,
+                                    Username = a.Username,
+                                    Title = p.Title
+                                }).ToArray();
+
+                    return list;
+                }
+                else
+                {
+                    var list = (from p in await context.Project.ToListAsync()
+                                join i in await context.Invitation.ToListAsync()
+                                on p.Id equals i.ProjectId
+                                join a in await context.Account.ToListAsync()
+                                on i.AccountId equals a.Id
+                                where i.AccountId == account.Id && i.Status == 0 && p.CreatorId != account.Id
+                                select new InvitationModel
+                                {
+                                    Id = i.Id,
+                                    Status = i.Status,
+                                    Username = a.Username,
+                                    Title = p.Title
+                                }).ToArray();
+
+                    return list;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<int> UpdateInvitation(int id, InvitationModel model, string token)
+        {
+            var account = await context.Account.FirstOrDefaultAsync(u => u.Token == token);
+
+            if(account != null)
+            {
+                var inv = await context.Invitation.FirstOrDefaultAsync(i => i.Id == model.Id.Value
+                    && i.ProjectId == id);
+
+                if (inv.AccountId != account.Id) return -2;
+
+                if(inv != null)
+                {
+                    inv.Status = model.Status;
+                    await context.SaveChangesAsync();
+                    return 1;
+                }
+
+                return 0;
+            }
+
+            return -1;
+        }
+
+        public async Task<int> CancelInvitation(int id, int accountId, string token)
+        {
+            var account = await context.Account.FirstOrDefaultAsync(u => u.Token == token);
+
+            if(account != null)
+            {
+                var project = await context.Project.FirstOrDefaultAsync(p => p.Id == id && p.CreatorId == account.Id);
+
+                if(project != null)
+                {
+                    var inv = await context.Invitation.FirstOrDefaultAsync(i => i.ProjectId == id
+                        && i.AccountId == accountId);
+
+                    if(inv != null)
+                    {
+                        context.Invitation.Remove(inv);
+                        await context.SaveChangesAsync();
+                        return 1;
+                    }
+
+                    return 0;
+                }
+
+                return -2;
+            }
+
+            return -1;
+        }
 
         public async Task<int> UpdateProject(ProjectModel project, string token)
         {
@@ -65,18 +198,18 @@ namespace ProjectManager.Services
             return 0;
         }
 
-        public async Task<MilestoneModel[]?> GetProject(string token, int id)
+        public async Task<SprintModel[]?> GetProject(string token, int id)
         {
             var account = await context.Account.FirstOrDefaultAsync(u => u.Token == token);
             if (account == null) return null;
 
-            var list = (from m in await context.Milestone.ToListAsync()
+            var list = (from m in await context.Sprint.ToListAsync()
                         join p in await context.Project.ToListAsync()
                         on m.ProjectId equals p.Id
-                        join g in await context.Group.ToListAsync()
+                        join g in await context.Invitation.ToListAsync()
                         on p.Id equals g.ProjectId
                         where g.AccountId == account.Id && p.Id == id select
-                        new MilestoneModel
+                        new SprintModel
                         {
                             Id = m.Id,
                             Title = m.Title,
@@ -115,14 +248,14 @@ namespace ProjectManager.Services
                 context.Project.Add(newProject);
                 await context.SaveChangesAsync();
 
-                var group = new Group
+                var invite = new Invitation
                 {
                     Status = 1,
                     AccountId = account.Id,
                     ProjectId = newProject.Id
                 };
 
-                context.Group.Add(group);
+                context.Invitation.Add(invite);
                 await context.SaveChangesAsync();
                 return 1;
             }
@@ -136,7 +269,7 @@ namespace ProjectManager.Services
             if (account == null) return null;
 
             var list = (from p in await context.Project.ToListAsync()
-                        join g in await context.Group.ToListAsync() on p.Id equals g.ProjectId
+                        join g in await context.Invitation.ToListAsync() on p.Id equals g.ProjectId
                         where g.AccountId == account.Id && g.Status > 0 select new ProjectModel {
                             Id = p.Id,
                             Title = p.Title,

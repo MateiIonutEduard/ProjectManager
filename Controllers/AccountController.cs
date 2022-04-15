@@ -7,7 +7,7 @@ using ProjectManager.Services;
 namespace ProjectManager.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, IgnoreAntiforgeryToken]
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private IAccountService accountService;
@@ -21,13 +21,6 @@ namespace ProjectManager.Controllers
             string token = header.Split(' ')[1];
             var data = await accountService.GetAccountAsync(token);
             return Ok(data);
-        }
-
-        [HttpGet("{profile}/{id}")]
-        public async Task<IActionResult> GetAccountProfile(int id)
-        {
-            var img = await accountService.GetProfileAsync(id);
-            return File(img.Buffer, img.ContentType, img.Filename);
         }
 
         [HttpPost, AllowAnonymous]
@@ -59,52 +52,6 @@ namespace ProjectManager.Controllers
             var access = await accountService.RefreshTokenAsync(token);
             if (access == null) return Unauthorized();
             return Ok(access);
-        }
-
-        [HttpPut("{profile}"), Authorize]
-        public async Task<IActionResult> UpdateAccountProfile([FromForm]IFormFile img)
-        {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string token = header.Split(' ')[1];
-
-            int res = await accountService.UpdateProfileAsync(token, img);
-            if (res < 0) return Unauthorized();
-            if (res == 0) return NoContent();
-            if(res == 1) return Ok();
-
-            var client = await accountService.GetAccountAsync(token);
-            var profile = await accountService.GetProfileAsync(client.Id);
-            return Created("{profile}/?id=" + client.Id, profile);
-        }
-
-        [HttpPost("{profile}"), Authorize]
-        public async Task<IActionResult> CreateAccountProfile([FromForm]IFormFile img)
-        {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string token = header.Split(' ')[1];
-
-            int res = await accountService.CreateProfileAsync(token, img);
-            if (res < 0) return Unauthorized();
-            if (res < 1) return NoContent();
-
-            var client = await accountService.GetAccountAsync(token);
-            var profile = await accountService.GetProfileAsync(client.Id);
-
-            if (res == 2) return Ok();
-            return Created("{profile}/?id=" + client.Id, profile);
-        }
-
-        [HttpDelete("{profile}"), Authorize]
-        public async Task<IActionResult> DeleteAccountProfile()
-        {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string token = header.Split(' ')[1];
-
-            int res = await accountService.DeleteProfileAsync(token);
-            if (res < 0) return Unauthorized();
-
-            if (res == 0) return NoContent();
-            return Accepted();
         }
 
         [HttpDelete, Authorize]

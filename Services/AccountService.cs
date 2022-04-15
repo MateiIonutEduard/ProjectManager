@@ -289,6 +289,7 @@ namespace ProjectManager.Services
                         Filename = img.FileName,
                         ContentType = img.ContentType,
                         Buffer = ms.ToArray(),
+                        AccountId = client.Id,
                         Status = true
                     };
 

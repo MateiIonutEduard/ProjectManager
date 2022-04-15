@@ -12,6 +12,6 @@ namespace ProjectManager.Data
         public DateTime EndDate { get; set; }
         public int ProjectId { get; set; }
         [ForeignKey("MeetingId")]
-        public ICollection<Invitation> Invitations { get; set; }
+        public ICollection<Appeal> Appeals { get; set; }
     }
 }

@@ -19,6 +19,6 @@ namespace ProjectManager.Data
         public int Priority { get; set; }
         public int Status { get; set; }
         public int MilestoneId { get; set; }
-        public Milestone Milestone { get; set; }
+        public Sprint Milestone { get; set; }
     }
 }

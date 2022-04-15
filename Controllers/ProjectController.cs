@@ -6,7 +6,7 @@ using ProjectManager.Services;
 
 namespace ProjectManager.Controllers
 {
-    [Route("api/[controller]"), IgnoreAntiforgeryToken]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase
     {
@@ -43,24 +43,6 @@ namespace ProjectManager.Controllers
             if (state == -1) return NoContent();
             return Ok();
         }
-
-        /*[HttpPost("{invite}"), Authorize]
-        public async Task<IActionResult> SendInvite([FromForm] GroupModel group)
-        {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string token = header.Split(' ')[1];
-
-            return Ok();
-        }
-
-        [HttpGet("{invite}/{id?}"), Authorize]
-        public async Task<IActionResult> GetInvitations(int? id)
-        {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string token = header.Split(' ')[1];
-
-            return Ok();
-        }*/
 
         [HttpPut, Authorize]
         public async Task<IActionResult> UpdateProject([FromForm]ProjectModel project)

@@ -1,0 +1,27 @@
+<div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signinModalLabel">Sign In</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+            <form class="form-check-inline">
+              <input type="email" id="address" class="form-control-sm" placeholder="Address..."/><br><br>
+              <input type="password"id="password"  class="form-control-sm" placeholder="Password"/>
+              <p *ngIf="!auth" class="text-danger">Forgot Password?</p>
+            </form>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</a>
+        <a type="button" (click)="SignIn()" class="btn btn-primary btn-sm">Login</a>
+      </div>
+    </div>
+  </div>
+</div>

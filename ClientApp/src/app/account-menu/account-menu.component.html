@@ -1,0 +1,11 @@
+<li *ngIf="auth" class="nav-item dropdown">
+      <a href="#" id="account" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+  <img class="rounded-circle" src="/api/account/profile/{{account.id}}" width="32" height="32"/>&nbsp;&nbsp;
+  <b class="text-light">{{account.username}}</b>
+</a>
+  <div class="dropdown-menu">
+    <a href="#" class="dropdown-item">My Account</a>
+    <a href="#" class="dropdown-item">Notifications</a>
+    <a (click)="SignOut()" class="dropdown-item">Sign Out</a>
+  </div>
+</li>
