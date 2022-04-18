@@ -23,7 +23,7 @@ export class LoginWindowComponent {
 
     (<HTMLInputElement>document.getElementById('address')).value = '';
     (<HTMLInputElement>document.getElementById('password')).value = '';
-    
+
     formData.append('address', address);
     formData.append('password', password);
     this.auth = true;
