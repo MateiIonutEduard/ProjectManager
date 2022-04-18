@@ -8,20 +8,18 @@ import {Observable} from "rxjs";
 export class AccountService {
   private readonly baseUrl: string;
 
-  constructor(private client: HttpClient, @Inject('BASE_URL') baseUrl: string)
+  constructor(private client: HttpClient)
   {
-    this.baseUrl = baseUrl;
+    this.baseUrl = 'api/account/';
   }
 
   SignIn(formData: FormData): Observable<Token> {
-    let url = 'api/account/';
-    return this.client.post<Token>(url, formData);
+    return this.client.post<Token>(this.baseUrl, formData);
   }
 
   GetAccount(): Observable<any> {
-    let url = 'api/account/';
     const token = localStorage.getItem("accessToken");
-    return this.client.get<any>(url, {
+    return this.client.get<any>(this.baseUrl, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -29,18 +27,26 @@ export class AccountService {
   }
 
   SignUp(formData: FormData): Observable<Token> {
-    let url = 'api/account/';
-    return this.client.post<Token>(url, formData);
+    return this.client.post<Token>(this.baseUrl, formData);
   }
-}
 
-export interface Account
-{
-  Id?: number;
-  Username?: string;
-  password: string;
-  address: string;
-  profile?: File;
+  Refresh(): Observable<Token> {
+    const token = localStorage.getItem("accessToken");
+    return this.client.put<Token>(this.baseUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+
+  SignOut() {
+    const token = localStorage.getItem("accessToken");
+    return this.client.delete<any>(this.baseUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
 }
 
 export interface Token

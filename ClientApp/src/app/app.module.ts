@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AccountMenuComponent } from './account-menu/account-menu.component';
 import { ProjectComponent } from './project/project.component';
 import { LoginWindowComponent } from './login-window/login-window.component';
+import { SignupWindowComponent } from './signup-window/signup-window.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { LoginWindowComponent } from './login-window/login-window.component';
     FetchDataComponent,
     AccountMenuComponent,
     ProjectComponent,
-    LoginWindowComponent
+    LoginWindowComponent,
+    SignupWindowComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

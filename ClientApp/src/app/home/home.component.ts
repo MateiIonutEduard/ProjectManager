@@ -1,22 +1,27 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
-import {Account, AccountService} from "../services/account/account.service";
+import {Subscription} from "rxjs";
+import {State} from "@popperjs/core";
+import {StateService} from "../services/state/state.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
   public auth: boolean;
+  private status: Subscription;
 
-  constructor() {
+  constructor(private state: StateService) {
     this.auth = false;
     let token = localStorage.getItem("accessToken");
-    console.log(token);
     if(token) this.auth = true;
+    this.status = state.GetState().subscribe(res => {
+      this.auth = res;
+    });
   }
 
-  SignUp() {
-
+  ngOnDestroy(): void {
+    this.status.unsubscribe();
   }
 }

@@ -21,37 +21,7 @@
   </div>
 </div>
 <app-login-window></app-login-window>
-<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="signupModalLabel">Create Account</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-sm-3"></div>
-          <div class="col-sm-6">
-            <form class="form-check-inline" (ngSubmit)="SignUp()">
-              <input type="text" class="form-control-sm" placeholder="Username"/><br><br>
-              <input type="password" class="form-control-sm" placeholder="Password"/><br><br>
-              <input type="email" class="form-control-sm" placeholder="Address..."/><br><br>
-              <div class="mb-3">
-                <input class="form-control form-control-sm" id="profile" type="file">
-              </div>
-            </form>
-          </div>
-          <div class="col-sm-3"></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</a>
-        <a type="submit" class="btn btn-success btn-sm">Signup</a>
-      </div>
-    </div>
-  </div>
-</div>
-
+<app-signup-window></app-signup-window>
 <br>
 <div class="jumbotron" style="color: whitesmoke; background-color: #382e2e;">
   <div class="row">
